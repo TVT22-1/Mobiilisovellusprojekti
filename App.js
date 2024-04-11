@@ -25,7 +25,16 @@ export default function App() {
         <Stack.Navigator>
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="flappybird" component={FlappybirdScreen} />
-          <Stack.Screen name="minesweeper" component={MinesweeperScreen} />
+          
+          {/* Minesweeper */}
+          <Stack.Screen
+          name="minesweeper" 
+          component={MinesweeperScreen} 
+          options={{
+            headerShown: false
+          }}
+          />
+          {/* Minesweeper ends */}
 
           {/* mato */}
           <Stack.Screen
