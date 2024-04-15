@@ -1,16 +1,11 @@
 import { View, Text, ImageBackground, TouchableOpacity, StyleSheet, StatusBar } from 'react-native'
 import React, { useCallback, useState } from 'react'
 import { useFonts } from 'expo-font';
-import MusicPlayer from '../games/snakegame/components/MusicPlayer';
 
-
-export default function SnakegameMenuScreen({ navigation }) {
-
-    const [isMusicMuted, setIsMusicMuted] = useState(false);
-
+export default function MinesweeperMenuScreen({ navigation }) {
     const [fontsLoaded, fontError] = useFonts({
-        'Pacifico': require('../games/snakegame/assets/fonts/Pacifico-Regular.ttf'),
-        'Comfortaa': require('../games/snakegame/assets/fonts/Comfortaa-VariableFont_wght.ttf'),
+        'Pacifico': require('../assets/fonts/Pacifico-Regular.ttf'),
+        'Comfortaa': require('../assets/fonts/Comfortaa-VariableFont_wght.ttf'),
     });
 
     const onLayoutRootView = useCallback(async () => {
@@ -24,31 +19,22 @@ export default function SnakegameMenuScreen({ navigation }) {
     }
 
     const handleStartPress = () => {
-        // Logic to start playing the music when the button is pressed
-        // setIsMusicMuted(false);
-        navigation.navigate('actualgame');
+        navigation.navigate('minesweepergame');
       };
 
     return (
-
-
         <View style={styles.container}>
             <StatusBar hidden={true} />
-
-
-
-            <ImageBackground source={require('../games/snakegame/assets/mato2.jpg')}
+            <ImageBackground source={require('../assets/images/minesweeperMenuBackround.jpeg')}
                 style={{
                     width: '100%',
                     height: '100%',
                     resizeMode: 'cover',
                     // justifyContent: 'center',
-                    alignItems: 'center',
-                    
+                    alignItems: 'center',                
                 }}
                 imageStyle={{ opacity: 0.4, }} //only to the background
             >
-
                 <Text style={{
                     fontFamily: 'Pacifico',
                     fontSize: 40,
@@ -58,17 +44,13 @@ export default function SnakegameMenuScreen({ navigation }) {
                     textShadowOffset: { width: -1, height: 1.2 },
                     textShadowRadius: 4,
 
-
-
-                }}>Snake Game</Text>
+                }}>Minesweeper</Text>
                 
                 <View style={styles.allButtons}>
 
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={handleStartPress}
-                    
-                    
+                        onPress={handleStartPress} 
                     >
                         <Text style={styles.buttonTxt}>Start</Text>
                     </TouchableOpacity>
@@ -76,7 +58,7 @@ export default function SnakegameMenuScreen({ navigation }) {
 
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => navigation.navigate('snakegameLeaderboard')}
+                        onPress={() => navigation.navigate('minesweeperLeaderboard')}
                     >
                         <Text style={styles.buttonTxt}>Leaderboard</Text>
                     </TouchableOpacity>
@@ -91,8 +73,6 @@ export default function SnakegameMenuScreen({ navigation }) {
 
             </ImageBackground>
         </View>
-
-
     )
 }
 
@@ -104,7 +84,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#F7C0D2',
     },
-
     allButtons: {
         flexDirection: 'column',
         justifyContent: 'center',
@@ -112,19 +91,13 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(253, 253, 253, 0.4)',
         borderRadius: 20,
         width: 300,
-       
         gap: 20,
         padding: 20,
         borderColor: '#EA8282',
         borderWidth: 2,
         borderStyle: 'dashed',
         position: 'absolute',
-        bottom: 160,
-       
-
-
-    
-
+        bottom: 160,  
     },
     button: {
         width: 200,
@@ -135,17 +108,11 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderColor: '#EC5E5E',
         borderWidth: 1,
-        margin: 10,
-
-        // elevation: 5,
-
-        
+        margin: 10, 
     },
     buttonTxt: {
         color: 'white',
         fontFamily: 'Comfortaa',
         fontSize: 20,
-        
-
     }
 })

@@ -1,132 +1,75 @@
-import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native'
-import React, { useState } from 'react'
-import { TextInput } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
+import { View, Text, StyleSheet, Image, ScrollView } from 'react-native'
+import React from 'react'
+import LoginForm from '../firebase/LoginForm'
+import RegisterForm from '../firebase/RegisterForm'
 
 
-export default function Login() {
-    const navigation = useNavigation();
+export default function LoginScreen({ navigation}) {
 
-    const [registerModalVisible, setRegisterModalVisible] = useState(false);
+    return (
 
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps='handled'>
+        <View style={styles.container}>
+            <View style={styles.appnameAndImage}>
+                <Text style={styles.appnameTxt}>CloverGames</Text>
+                <Image source={require('../assets/images/clover3.png')} style={{ width: 60, height: 65, }} />
+            </View>
 
-    const registerModal = () => {
-        console.log("Register");
-        setRegisterModalVisible(true);
-    }
+            <Text style={{ color: 'black', fontSize: 20, fontFamily: 'comfortaa-variable', marginBottom: 10,}}>Login or Register to have fun!</Text>
+            <View style={styles.forms}>
 
-    const closeRegisterModal = () => {
-        setRegisterModalVisible(false);
-    }
-
-
-  return (
-
-    <View style={styles.container}>
-        
-     
-
-      <TextInput
-      label = "Email"
-      style = {styles.inputField}
-        />
-        <TextInput
-        label = "Password"
-        style = {styles.inputField}
-        />
-        <TouchableOpacity
-        style = {styles.button}
-        onPress = {() => console.log("Login")}
-        >
-          <Text style = {styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-        <Text>Don't you have a username yet? Register now!</Text>
-        <TouchableOpacity
-        style = {styles.button}
-        onPress = {registerModal}
-        >
-          <Text style = {styles.buttonText}>Register</Text>
-        </TouchableOpacity>
-
-        <Modal
-        animationType='slide'
-        transparent={true}
-        visible={registerModalVisible}
-        onRequestClose={closeRegisterModal}
-        style={styles.modalContainer}
-        
-        >
-
-           
-                <View style={styles.modalView}>
-                    <Text>Register</Text>
-                    <TextInput
-                    label = "Email"
-                    style = {styles.inputField}
-                    />
-                    <TextInput
-                    label = "Password"
-                    style = {styles.inputField}
-                    />
-                    <TouchableOpacity
-                    style = {styles.button}
-                    onPress = {() => console.log("Register")}
-                    >
-                        <Text style = {styles.buttonText}>Register</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                    style = {styles.button}
-                    onPress = {closeRegisterModal}
-                    >
-                        <Text style = {styles.buttonText}>Close</Text>
-                    </TouchableOpacity>
+                <View>
+                    <LoginForm navigation={navigation} />
                 </View>
-           
+                <View>
+                    <RegisterForm />
+                </View>
+            </View>
+        </View>
+        </ScrollView>
 
-        </Modal>
-    
 
-
-
-
-    </View>
-  )
+    )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-    inputField: {
-        width: '80%',
-        margin: 10
-    },
-    button: {
-        backgroundColor: 'pink',
-        padding: 10,
-        margin: 10
-    },
-    buttonText: {
-        color: 'white',
-        fontSize: 20
-    },
-    modalContainer: {
+    container: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(0,0,0,0.5)'
+        backgroundColor: '#ebf0ed',
     },
-    modalView: {
-        backgroundColor: 'white',
-        padding: 10,
-        margin: 10,
-        borderRadius: 10,
+    appnameAndImage: {
+        flexDirection: 'row',
+        justifyContent: 'center',
         alignItems: 'center',
-        elevation: 5
+        gap: 10,
+        marginBottom: 20,
+
     },
+    appnameTxt: {
+        fontSize: 40,
+        fontFamily: 'pacifico-regular',
+        marginBottom: 20,
+        color: '#EA8282',
+        fontSize: 42,
+        padding: 10,
+        textShadowColor: 'rgba(0, 0, 0, 0.9)',
+        textShadowOffset: { width: -1, height: 1.2 },
+        textShadowRadius: 4,
+    },
+    forms: {
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(234, 130, 130, 0.9)',
+        borderRadius: 20,
+        width: 320,
+        gap: 20,
+        padding: 20,
+        borderColor: '#EA8282',
+        borderWidth: 2,
+        borderStyle: 'dashed',
 
-
+    },
 })
