@@ -77,7 +77,6 @@ export function gameReducer(state, action) {
           isGameWon: true,
           isGameOn: false,
           isTimerOn: false,
-          score: state.elapsedTime,
         };
       }
 
@@ -96,7 +95,6 @@ export function gameReducer(state, action) {
         isTimerOn: false,
       };
     }
-
     default: {
       console.log('error, action not found')
     }

@@ -4,12 +4,13 @@ import React, { useState, useEffect } from 'react'
 import { createBoard } from '../utils/createBoard'
 import Cell from './Cell'
 import { gameReducer } from '../reducers/gameReducer'
-
+import { saveScoreToFirebase } from './ScoreToFirebase'
+import { set } from 'firebase/database'
 
 export default function Board() {
   let height = 10
   let width = 10
-  let bombs = 3
+  let bombs = 10
   const [elapsedTime, setElapsedTime] = useState(0);
   const [timerInterval, setTimerInterval] = useState(null); // to hold the timer interval
   const [selectedValue, setSelectedValue] = React.useState("easy");
@@ -20,7 +21,6 @@ export default function Board() {
       isGameWon: false,
       isGameOn: true,
       isTimerOn: false,
-      score: 0,
       numOfOpenedCells: 0,
       numberOfNonBombCells: width * height - bombs,
       numberOfBombs: bombs
@@ -32,6 +32,7 @@ export default function Board() {
   const remainingBombs = gameState.numberOfBombs - numFlaggedCells;
   
   function handlePress(row, col) {
+    console.log(gameState.board[row][col] );
     if (!gameState.isTimerOn && !gameState.isGameOver && !gameState.isGameWon) {
       // Start the timer if it's not already running
       setTimerInterval(setInterval(() => {
@@ -60,15 +61,15 @@ export default function Board() {
       case 'easy':
         width = 10;
         height = 10;
-        bombs = 3;
+        bombs = 10;
         break;
       case 'medium':
-        width = 15;
+        width = 14;
         height = 15;
-        bombs = 30;
+        bombs = 35;
         break;
       case 'hard':
-        width = 15;
+        width = 14;
         height = 20;
         bombs = 50;
         break;
@@ -89,10 +90,12 @@ export default function Board() {
       clearInterval(timerInterval);
       dispatch({ type: 'STOP_TIMER' });
       if (gameState.isGameWon) {
-      gameState.score = formatTime(elapsedTime)
-      console.log(score)
-      console.log(elapsedTime)
-      }
+        const score = formatTime(elapsedTime);
+        const difficulty = selectedValue;
+        console.log(score, difficulty );
+        // Save the score to Firebase
+        saveScoreToFirebase(score, difficulty);
+    }
     }
   }, [gameState.isGameOver, gameState.isGameWon]);
 
@@ -116,9 +119,11 @@ export default function Board() {
         </TouchableOpacity>
         <Text style={styles.flaggedCounter}>{`💣: ${remainingBombs}`}</Text>
       </View>
+      <Text style={styles.difficulty}>Difficulty:</Text>
       <Picker
         selectedValue={selectedValue}
         style={styles.dropdown}
+        dropdownIconColor={'white'}
         onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}>
         <Picker.Item label="Easy" value="easy" />
         <Picker.Item label="Medium" value="medium" />
@@ -156,6 +161,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: 'white',
   },
+  difficulty: {
+    fontSize: 15,
+    color: 'white',
+    marginTop: 10,
+  },
   timer: {
     fontSize: 20,
     fontWeight: 'bold',
@@ -173,7 +183,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#EA8282',
     padding: 10,
     borderRadius: 5,
-    marginBottom: 10,
+
     borderColor: 'gray',
     borderWidth: 1,
     marginRight: 10,

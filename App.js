@@ -105,7 +105,22 @@ export default function App() {
           />
           <Stack.Screen
           name="minesweeperLeaderboard"
-          component={MinesweeperLeaderboard} />
+          component={MinesweeperLeaderboard}
+          options={
+            {
+              title: 'Leaderboard',
+              headerStyle: {
+                backgroundColor: '#EA8282',
+              },
+              headerTitleAlign: 'center',
+              headerTintColor: '#fff',
+              headerTitleStyle: {
+                fontFamily: 'comfortaa-variable',
+                alignItems: 'center',
+              },
+          }
+          }
+          />
           <Stack.Screen 
           name="minesweepergame"
           component={MinesweeperScreen}
